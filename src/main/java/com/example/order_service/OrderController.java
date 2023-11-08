@@ -1,11 +1,7 @@
 package com.example.order_service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OrderController {
@@ -15,8 +11,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping ("/CreateOrder")
-    public void createOrder(@RequestBody OrderDetails orderDetails){
+    @PostMapping("/CreateOrder")
+    public String createOrder(@RequestBody OrderDetails orderDetails){
         orderService.createOrder(orderDetails);
+        return ("Thanks, your order has been placed!");
+    }
+
+    @GetMapping("/GetById")
+    public OrderDetails getById(@RequestParam int id){
+        return orderService.findById(id);
     }
 }

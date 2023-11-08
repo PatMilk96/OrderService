@@ -10,4 +10,13 @@ public class OrderService {
     public void createOrder(OrderDetails orderDetails) {
         orders.add(orderDetails);
     }
+
+    public OrderDetails findById(int id) {
+        for(OrderDetails order : orders){
+            if(order.getId() == id) {
+                return order;
+            }
+        }
+        return null;
+    }
 }

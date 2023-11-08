@@ -6,18 +6,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class OrderController {
     private OrderService orderService;
+    private OrderServiceClient orderServiceClient;
     @Autowired
-    public OrderController(OrderService orderService){
+    public OrderController(OrderService orderService, OrderServiceClient orderServiceClient){
+        this.orderService = orderService;
         this.orderService = orderService;
     }
 
     @PostMapping("/CreateOrder")
     public String createOrder(@RequestBody OrderDetails orderDetails){
-        orderService.createOrder(orderDetails);
-        return ("Thanks, your order has been placed!");
+        int customerId = orderDetails.getCustomerId();
+        if(orderServiceClient.details(customerId) == customerId) {
+            orderService.createOrder(orderDetails);
+            return("Order Added");
+        }
+        else return ("Oops, something went wrong");
     }
 
-    @GetMapping("/GetById")
+    @GetMapping("/getById")
     public OrderDetails getById(@RequestParam int id){
         return orderService.findById(id);
     }
